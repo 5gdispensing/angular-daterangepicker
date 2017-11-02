@@ -70,11 +70,21 @@ picker.directive 'dateRangePicker', ($compile, $timeout, $parse, dateRangePicker
         then moment(date).format(opts.locale.format)
         else date.format(opts.locale.format)
 
+      result = ''
       if opts.singleDatePicker and objValue
-        f(objValue)
-      else if objValue and objValue.startDate
-        [f(objValue.startDate), f(objValue.endDate)].join(opts.locale.separator)
-      else ''
+        result = f(objValue)
+      else if objValue.startDate
+        if opts.startOfDay
+          result = [
+            f(objValue.startDate)
+            f(objValue.endDate.clone().subtract(opts.startOfDay, 'hours'))
+          ].join(opts.locale.separator)
+        else
+          result = [
+            f(objValue.startDate)
+            f(objValue.endDate)
+          ].join(opts.locale.separator)
+      result
 
     # Render should update the date picker start/end dates as necessary
     # It should also set the input element's val with $viewValue as we don't let the rangepicker do this
@@ -101,8 +111,11 @@ picker.directive 'dateRangePicker', ($compile, $timeout, $parse, dateRangePicker
         else
           x = val.split(opts.locale.separator).map(f)
           # Use startOf/endOf day to comply with how bootstrap-daterangepicker works
-          objValue.startDate = x[0].startOf("day")
-          objValue.endDate = x[1].endOf("day")
+          objValue.startDate = x[0].startOf('day')
+          if opts.startOfDay
+            objValue.endDate = x[1].endOf('day').clone().add(opts.startOfDay, 'hours')
+          else
+            objValue.endDate = x[1].endOf('day')
       objValue
 
     modelCtrl.$isEmpty = (val) ->
