@@ -21,7 +21,7 @@
   "dependencies": {
     "angular": "^1.2.17",
     "bootstrap": "^3.0.0",
-    "bootstrap-daterangepicker": "^3.0.0",
+    "bootstrap-daterangepicker": "https://github.com/5gdispensing/bootstrap-daterangepicker.git#master",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
