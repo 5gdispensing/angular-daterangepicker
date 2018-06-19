@@ -60,6 +60,7 @@ exampleApp.controller('TestCtrl', function($scope) {
     $scope.opts = {
 		linkedCalendars: false,
         autoApply: true,
+	    showDropdowns: true,
 		parentEl: '#filters-form-content',
 		ranges: {
 		'Last 30 days': [moment().subtract(30, 'days').startOf('day'),
